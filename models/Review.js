@@ -21,11 +21,11 @@ const reviewSchema = new Schema(
         date: {
             type: Date,
             required: true,
-            default: new Date
+            default: new Date()
         }
     }
 )
 
 const Review = mongoose.model('Review', reviewSchema)
 
-exports = Review
+module.exports = Review

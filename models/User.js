@@ -2,15 +2,24 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-    userName: {
+    username: {
         type: String,
         maxLength: 50,
-        unique: true,
         required: true
     },
     password: {
         type: String,
         required: true,
+        minlength: 6
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    created_at: {
+        type: Date,
+        default: new Date()
     }
 })
 

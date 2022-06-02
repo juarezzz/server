@@ -1,7 +1,12 @@
 const Book = require('../models/Book')
 
 exports.book_list = async (req, res) => {
-    const books = await Book.find({})
+    const { search } = req.query
+    let query = {}
+    if (search) {
+        query.title = { $regex: new RegExp(search), $options: 'i' }
+    }
+    const books = await Book.find(query)
     res.status(200).json(books)
 }
 

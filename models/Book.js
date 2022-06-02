@@ -6,6 +6,18 @@ const bookSchema = new Schema({
         type: String,
         required: true
     },
+    cover_image: {
+        type: String
+    },
+    genres: {
+        type: [String],
+        required: true
+    },
+    num_of_pages: {
+        type: Number,
+        min: 0,
+        required: true
+    },
     publish_date: {
         type: Date,
         required: true

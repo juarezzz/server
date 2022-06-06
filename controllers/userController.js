@@ -2,7 +2,7 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 
 exports.user_list = async (req, res) => {
-    const users = await User.find({})
+    const users = await User.find({}, '-password')
     res.status(200).json(users)
 }
 
@@ -25,11 +25,11 @@ exports.user_authenticate = async (req, res) => {
     const user = await User.findOne({ email })
     if (user) {
         const match = await bcrypt.compare(password, user._doc.password)
-        if (match) res.status(200).json()
+        if (match) res.status(200).json({ id: user._id })
         else {
-            res.status(401).json({ error: 'Wrong password' })
+            res.status(401).end()
         }
     } else {
-        res.status(401).json({ error: 'User not found' })
+        res.status(401).end()
     }
 }

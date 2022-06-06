@@ -8,6 +8,11 @@ const reviewSchema = new Schema(
             ref: 'User',
             required: true
         },
+        book: {
+            type: Schema.Types.ObjectId,
+            ref: 'Book',
+            required: true
+        },
         score: {
             type: Number,
             min: 0,

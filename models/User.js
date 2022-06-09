@@ -20,7 +20,27 @@ const userSchema = new Schema({
     created_at: {
         type: Date,
         default: new Date()
-    }
+    },
+    avatar: {
+        type: String
+    },
+    books: [
+        {
+            _id: false,
+            book: {
+                type: Schema.Types.ObjectId,
+                ref: 'Book'
+            },
+            status: {
+                type: String,
+                enum: ['To Read', 'Read', 'Currently Reading']
+            },
+            date_added: {
+                type: Date,
+                default: new Date()
+            }
+        }
+    ]
 })
 
 const User = mongoose.model('User', userSchema)

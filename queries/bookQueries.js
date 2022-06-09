@@ -19,9 +19,9 @@ exports.findBookById = (id) => (
             },
             {
                 $addFields: {
-                    number_of_reviews: { $size: "$reviews" },
+                    numb_of_reviews: { $size: "$reviews" },
                     avg_rating: { $round: [{ $avg: '$reviews.score' }, 2] },
-                    number_of_comments: { $size: '$reviews.comment' }
+                    num_of_comments: { $size: '$reviews.comment' }
                 }
             }
         ]
@@ -46,7 +46,7 @@ exports.findBooksByTitle = (title) => (
             },
             {
                 $addFields: {
-                    number_of_reviews: { $size: "$reviews" },
+                    num_of_reviews: { $size: "$reviews" },
                     avg_rating: { $round: [{ $avg: '$reviews.score' }, 2] }
                 }
             },

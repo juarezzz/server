@@ -4,10 +4,10 @@ const { book_list, book_detail, book_create, book_create_review } = require('../
 
 router.get('/', book_list)
 
-router.get('/:id', book_detail)
+router.get('/:bookId', book_detail)
 
 router.post('/', book_create)
 
-router.post('/:id/reviews', book_create_review)
+router.post('/:bookId/reviews', book_create_review)
 
 module.exports = router;

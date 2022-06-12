@@ -1,5 +1,5 @@
 const Book = require('../models/Book')
-const Review = require('../models/Review')
+const User = require('../models/User')
 const { findBookById, findBooksByTitle } = require('../queries/bookQueries')
 
 exports.book_list = async (req, res) => {
@@ -9,8 +9,8 @@ exports.book_list = async (req, res) => {
 }
 
 exports.book_detail = async (req, res) => {
-    const { id } = req.params
-    const book = await findBookById(id)
+    const { bookId } = req.params
+    const book = await findBookById(bookId)
     res.status(200).json(book[0])
 }
 
@@ -21,12 +21,19 @@ exports.book_create = async (req, res) => {
 }
 
 exports.book_create_review = async (req, res) => {
-    const { id } = req.params
-    const book = await Book.findById(id)
-    const newReview = new Review(req.body)
+    const { bookId } = req.params
+    const { user, score, comment } = req.body
+    const book = await Book.findById(bookId)
+    const userDoc = await User.findById(user.userId)
+    const newReview = {
+        user,
+        book: bookId,
+        score,
+        comment
+    }
     book.reviews.push(newReview)
-    newReview.book = book
+    console.log(newReview)
+    console.log(book.reviews)
     await book.save()
-    await newReview.save()
     res.status(201).json(newReview)
 }

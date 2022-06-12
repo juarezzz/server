@@ -1,36 +1,49 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const reviewSchema = new Schema(
-    {
-        user: {
+const reviewSchema =
+{
+    user: {
+        userId: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
             required: true
         },
-        book: {
-            type: Schema.Types.ObjectId,
-            ref: 'Book',
-            required: true
-        },
-        score: {
-            type: Number,
-            min: 0,
-            max: 5,
-            required: true
-        },
-        comment: {
+        username: {
             type: String,
-            maxlength: 10000
+            required: true
         },
-        date: {
-            type: Date,
-            required: true,
-            default: new Date()
+        avatar: {
+            type: String
         }
+    },
+    book: {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
+        required: true
+    },
+    score: {
+        type: Number,
+        min: 0,
+        max: 5
+    },
+    comment: {
+        body: {
+            type: String,
+            maxLength: 10000
+        },
+        date_changed: {
+            type: Date
+        },
+        spoilers: {
+            type: Boolean
+        }
+    },
+    date: {
+        type: Date,
+        required: true,
+        default: new Date()
     }
-)
+}
 
-const Review = mongoose.model('Review', reviewSchema)
 
-module.exports = Review
+module.exports = reviewSchema

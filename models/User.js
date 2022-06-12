@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const reviewSchema = require('./Review')
 
 const userSchema = new Schema({
     username: {
@@ -22,7 +23,12 @@ const userSchema = new Schema({
         default: new Date()
     },
     avatar: {
-        type: String
+        type: String,
+        default: null
+    },
+    bio: {
+        type: String,
+        maxLength: 10000
     },
     books: [
         {

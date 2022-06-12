@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const reviewSchema = require('./Review');
 const Schema = mongoose.Schema
 
 const bookSchema = new Schema({
@@ -33,12 +34,12 @@ const bookSchema = new Schema({
     publisher: {
         type: String,
     },
-    reviews: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Review'
-        }
-    ]
+    reviews: {
+        type: [
+            reviewSchema
+        ],
+        default: []
+    }
 })
 
 const Book = mongoose.model('Book', bookSchema);

@@ -1,28 +1,28 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
-const { getUserBookLists } = require('../queries/userQueries')
+const catchAsync = require('../utils/catchAsync')
 
-exports.user_list = async (req, res) => {
+exports.user_list = catchAsync(async (req, res) => {
     const users = await User.find({}, '-password')
     res.status(200).json(users)
-}
+})
 
-exports.user_detail = async (req, res) => {
+exports.user_detail = catchAsync(async (req, res) => {
     const { id } = req.params
     const user = await User.findById(id, '-books -password')
     res.status(200).json(user)
-}
+})
 
-exports.user_create = async (req, res) => {
+exports.user_create = catchAsync(async (req, res) => {
     const { username, email, password } = req.body
     //Proteger as senhas com um algoritmo de hash
     const hash = await bcrypt.hash(password, 12)
     const newUser = new User({ username, email, password: hash })
     await newUser.save()
     res.status(201).json(newUser)
-}
+})
 
-exports.user_update = async (req, res) => {
+exports.user_update = catchAsync(async (req, res) => {
     const { id } = req.params
     const { avatar, bio, username } = req.body
     const updatedUser = await User.findByIdAndUpdate(
@@ -31,9 +31,9 @@ exports.user_update = async (req, res) => {
         { projection: '-books -password', returnDocument: 'after' }
     )
     res.status(200).json(updatedUser)
-}
+})
 
-exports.user_authenticate = async (req, res) => {
+exports.user_authenticate = catchAsync(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
     if (user) {
@@ -45,15 +45,15 @@ exports.user_authenticate = async (req, res) => {
     } else {
         res.status(401).end()
     }
-}
+})
 
-exports.user_books = async (req, res) => {
+exports.user_books = catchAsync(async (req, res) => {
     const { id } = req.params
     const user = await User.findById(id, 'books -_id').populate('books.book')
     res.status(200).json(user.books)
-}
+})
 
-exports.user_add_book = async (req, res) => {
+exports.user_add_book = catchAsync(async (req, res) => {
     const { id } = req.params
     const { status, book } = req.body
     const user = await User.findById(id).populate('books.book')
@@ -69,13 +69,13 @@ exports.user_add_book = async (req, res) => {
     }
     await user.save()
     res.status(201).json(user.books)
-}
+})
 
-exports.user_remove_book = async (req, res) => {
+exports.user_remove_book = catchAsync(async (req, res) => {
     const { userId, bookId } = req.params
     const user = await User.findById(userId).populate('books.book')
     const newBookList = user.books.filter(userBook => String(userBook.book._id) !== bookId)
     user.books = newBookList
     await user.save()
     res.status(200).json(user.books)
-}
+})

@@ -44,6 +44,26 @@ const userSchema = new Schema({
             date_added: {
                 type: Date,
                 default: new Date()
+            },
+            review: {
+                score: {
+                    type: Number,
+                    min: 0,
+                    max: 5
+                },
+                comment: {
+                    body: {
+                        type: String,
+                        maxLength: 10000
+                    },
+                    spoilers: {
+                        type: Boolean
+                    }
+                },
+                date: {
+                    type: Date,
+                    default: new Date()
+                }
             }
         }
     ]

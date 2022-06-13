@@ -36,7 +36,40 @@ const bookSchema = new Schema({
     },
     reviews: {
         type: [
-            reviewSchema
+            {
+                user: {
+                    userId: {
+                        type: Schema.Types.ObjectId,
+                        required: true
+                    },
+                    username: {
+                        type: String,
+                        required: true
+                    },
+                    avatar: {
+                        type: String
+                    }
+                },
+                score: {
+                    type: Number,
+                    min: 0,
+                    max: 5
+                },
+                comment: {
+                    body: {
+                        type: String,
+                        maxLength: 10000
+                    },
+                    spoilers: {
+                        type: Boolean
+                    }
+                },
+                date: {
+                    type: Date,
+                    required: true,
+                    default: new Date()
+                }
+            }
         ],
         default: []
     }

@@ -10,14 +10,6 @@ exports.findBookById = (id) => (
                 }
             },
             {
-                $lookup: {
-                    from: "reviews",
-                    localField: "reviews",
-                    foreignField: "_id",
-                    as: 'reviews'
-                }
-            },
-            {
                 $addFields: {
                     numb_of_reviews: { $size: "$reviews" },
                     avg_rating: { $round: [{ $avg: '$reviews.score' }, 2] },
@@ -34,14 +26,6 @@ exports.findBooksByTitle = (title) => (
             {
                 $match: {
                     title: { $regex: new RegExp(title), $options: 'i' }
-                }
-            },
-            {
-                $lookup: {
-                    from: "reviews",
-                    localField: "reviews",
-                    foreignField: "_id",
-                    as: 'reviews'
                 }
             },
             {

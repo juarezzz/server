@@ -12,7 +12,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/books', bookRouter)
+
 app.use('/users', userRouter)
+
+app.use((err, req, res, next) => {
+    res.status(500).end()
+})
 
 const CONNECTION_URL = 'mongodb+srv://juarez:FQp9XFs2jzpDCrQd@cluster0.dg7ku.mongodb.net/?retryWrites=true&w=majority'
 
